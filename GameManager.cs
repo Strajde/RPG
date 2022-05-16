@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//nosi za nami na plecach wszystko co chcemy, ¿eby by³o niesione i nie przepad³o
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -32,10 +33,18 @@ public class GameManager : MonoBehaviour
     //References
     public Player player;
     // public weapon weapon; ...
+    //po co tworzyæ nowy jak mozna nosiæ zawsze ze sob¹
+    public FloatingTextManager floatingTextManager;
 
     //Logic
     public int pesos;
     public int experience;
+
+    // wszelkie odwo³ania do FloatingTextu s¹ zawsze do GameManagera. Nie do FloatingTextManagera
+    public void ShowText(string msg, int fontSize, Color color, Vector3 position, Vector3 motion, float duration)
+    {
+        floatingTextManager.Show(msg, fontSize, color, position, motion, duration);
+    }
 
     public void SaveState()
     {
@@ -46,7 +55,9 @@ public class GameManager : MonoBehaviour
         save += experience.ToString() + "|";
         save += "0";
 
+        //zapisuje string z danymi i nadaje mu klucz SaveState
         PlayerPrefs.SetString("SaveState", save);
+        Debug.Log("Save");
     }
 
     public void LoadState(Scene s, LoadSceneMode mode)
@@ -55,7 +66,7 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-
+        //rozdziela zapisany string i zamienia go w tabelê, któr¹ pó¿niej rozdaje zmiennym
         string[] data = PlayerPrefs.GetString("SaveState").Split('|');
 
         //Change player skin
