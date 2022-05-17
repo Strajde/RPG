@@ -15,7 +15,7 @@ public class Collidable : MonoBehaviour
 
     protected virtual void Update()
     {
-        // Collision work
+        // Buduje tabelê nachodz¹cych na siebie w tym samym czasie colliderów i uruchamia dla ka¿dego OnCollide
         boxCollider.OverlapCollider(filter, hits);
         for (int i = 0; i < hits.Length; i++)
         {
@@ -31,6 +31,6 @@ public class Collidable : MonoBehaviour
 
     protected virtual void OnCollide(Collider2D coll)
     {
-        Debug.Log(coll.name);
+        Debug.Log("OnCollide was not implemented in " + coll.name);
     }
 }
