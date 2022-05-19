@@ -44,6 +44,7 @@ public class Weapon : Collidable
             {
                 return;
             }
+
             //tworzy nowy obiekt Damage i wysy³a go do trafionego obiektu fighter
             // inny sposób na deklarowanie, nie trzeba najpierw wrzucic klasy a potem jej wyst¹pienia tylko od razu wystapienie. Wtedy przecinki po wierszu w {}
             Damage dmg = new Damage
