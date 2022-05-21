@@ -15,11 +15,6 @@ public abstract class Mover : Fighter
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    private void FixedUpdate()
-    {
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");       
-    }
 
     protected virtual void UpdateMotor(Vector3 input)
     {
