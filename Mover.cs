@@ -19,13 +19,20 @@ public abstract class Mover : Fighter
     protected virtual void UpdateMotor(Vector3 input)
     {
         // Reset Movedelta - bo x i y i tak s¹ w inpucie i s¹ zawsze po framie 0, -1 albo 1. Reset co frame
-        moveDelta = input;
+        moveDelta =  new Vector3(input.x * xSpeed,input.y * ySpeed, 0);
 
         // Swap sprite direction, wether yo're going right or left
         if (moveDelta.x > 0)
             transform.localScale = Vector3.one;
         else if (moveDelta.x < 0)
             transform.localScale = new Vector3(-1, 1, 1);
+
+        //Jeœli ma byæ push, to push vector
+        moveDelta += pushDirection;
+
+        //Redukcja push force dla kazdego frame'a na podstawie pushRecoverySpeed (fighter)
+        // interpoluje miêdzy "a" i "b"(tu vector3.zero jako nic w sumie) o wartoœæ "t"
+        pushDirection = Vector3.Lerp(pushDirection, Vector3.zero, pushRecoverySpeed);
 
         // Make sure we can move by casting a box. If the box returns 0, we're free to move.
         // 0 to rotacja - w 2d - zerowa
