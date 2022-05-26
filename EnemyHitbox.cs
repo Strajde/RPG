@@ -19,7 +19,6 @@ public class EnemyHitbox : Collidable
                 origin = transform.position,
                 pushForce = pushForce
             };
-            Debug.Log("aaa");
             coll.SendMessage("ReciveDamage", dmg);
             
         }
