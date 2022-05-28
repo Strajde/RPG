@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     //References
     public Player player;
-    // public weapon weapon; ...
+    public Weapon weapon;
     //po co tworzyæ nowy jak mozna nosiæ zawsze ze sob¹
     public FloatingTextManager floatingTextManager;
 
@@ -46,11 +46,29 @@ public class GameManager : MonoBehaviour
         floatingTextManager.Show(msg, fontSize, color, position, motion, duration);
     }
 
+    //Upgreade weapon
+    public bool TryUpgreadeWeapon()
+    {
+        //czy broñ jest na max lvlu?
+        if (weaponPrices.Count <= weapon.weaponLevel)
+            return false;
+
+        //czy masz hajs?
+        if (pesos >= weaponPrices[weapon.weaponLevel])
+        {
+            pesos -= weaponPrices[weapon.weaponLevel];
+            weapon.UpgreadeWeapon();
+            return true;
+        }
+
+        return false;
+    }
+
     public void SaveState()
     {
         string save = "";
 
-        save += "0" + "|";
+        save += weapon.weaponLevel + "|";
         save += pesos.ToString() + "|";
         save += experience.ToString() + "|";
         save += "0";
@@ -58,7 +76,7 @@ public class GameManager : MonoBehaviour
         //zapisuje string z danymi i nadaje mu klucz SaveState
         PlayerPrefs.SetString("SaveState", save);
         Debug.Log("Save");
-    }
+    } 
 
     public void LoadState(Scene s, LoadSceneMode mode)
     {
@@ -70,9 +88,9 @@ public class GameManager : MonoBehaviour
         string[] data = PlayerPrefs.GetString("SaveState").Split('|');
 
         //Change player skin
+        weapon.SetWeaponLevel(int.Parse(data[0]));
         pesos = int.Parse(data[1]);
         experience = int.Parse(data[2]);
-        // Change weapon level
 
         Debug.Log("Load");
 

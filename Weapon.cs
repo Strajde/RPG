@@ -5,22 +5,22 @@ using UnityEngine;
 public class Weapon : Collidable
 {
     //Damage structure
-    public int damagePoint = 1;
-    public float pushForce = 2.0f;
+    public int[] damagePoint = { 1,2,3,4,5,6,7};
+    public float[] pushForce = { 2.0f, 2.2f , 2.5f, 3.0f, 3.2f, 3.6f, 4.0f};
 
     //Upgrade
     public int weaponLevel = 0;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
 
     //Swing
     private Animator anim;
     private float cooldown = 0.5f;
     private float lastSwing;
 
+    
     protected override void Start()
     {
         base.Start();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
     }
 
@@ -51,9 +51,9 @@ public class Weapon : Collidable
             // inny sposób na deklarowanie, nie trzeba najpierw wrzucic klasy a potem jej wyst¹pienia tylko od razu wystapienie. Wtedy przecinki po wierszu w {}
             Damage dmg = new Damage
             {
-                damageAmount = damagePoint,
+                damageAmount = damagePoint[weaponLevel],
                 origin = transform.position,
-                pushForce = pushForce
+                pushForce = pushForce[weaponLevel]
             };
             coll.SendMessage("ReciveDamage",dmg);
         }
@@ -62,5 +62,18 @@ public class Weapon : Collidable
     private void Swing()
     {
         anim.SetTrigger("Swing");
+    }
+
+    public void UpgreadeWeapon()
+    {
+        weaponLevel++;
+        spriteRenderer.sprite = GameManager.instance.weaponSprites[weaponLevel];
+    }
+
+    // wywo³ywana z game managera, oddaje aktualny lvl broni
+    public void SetWeaponLevel(int level)
+    {
+        weaponLevel = level;
+        spriteRenderer.sprite = GameManager.instance.weaponSprites[weaponLevel];
     }
 }
