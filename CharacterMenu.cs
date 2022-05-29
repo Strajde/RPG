@@ -45,7 +45,7 @@ public class CharacterMenu : MonoBehaviour
         GameManager.instance.player.SwapSprite(currentCharacterSelection);
     }
 
-    //Weapon upgrade
+    //Weapon upgrade - click
     public void OnUpgradeClick()
     {
         if (GameManager.instance.TryUpgreadeWeapon())
