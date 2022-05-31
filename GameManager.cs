@@ -9,10 +9,13 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     private void Awake()
     {
-        //nie twórz dubli GameManagera
+        //nie twórz dubli GameManagera, playera i floatingTextManagera
         if (GameManager.instance != null)
         {
             Destroy(gameObject);
+            Destroy(player.gameObject);
+            Destroy(floatingTextManager.gameObject);
+
             return;
         }
 
@@ -106,6 +109,8 @@ public class GameManager : MonoBehaviour
         player.OnLevelUp();
     }
 
+    //Save, Load system
+
     public void SaveState()
     {
         string save = "";
@@ -138,6 +143,9 @@ public class GameManager : MonoBehaviour
             player.SetLevel(GetCurrentLevel());
 
         Debug.Log("Load");
+
+        player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+
 
     }
 }
