@@ -6,7 +6,14 @@ using UnityEngine.SceneManagement;
 public class Portal : Collidable
 {
 
+    public static Portal instance;
     public string[] sceneNames;
+    public Animator bossPortalOpen;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     protected override void OnCollide(Collider2D coll)
     {
