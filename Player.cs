@@ -14,6 +14,11 @@ public class Player : Mover
 
         DontDestroyOnLoad(gameObject);
     }
+    protected override void ReciveDamage(Damage dmg)
+    {
+        base.ReciveDamage(dmg);
+        GameManager.instance.OnHitpointChange();
+    }
     private void FixedUpdate()
     {
         float x = Input.GetAxisRaw("Horizontal");
@@ -46,6 +51,8 @@ public class Player : Mover
         hitpoint += healingAmount;
         if (hitpoint > maxHitpoint)
             hitpoint = maxHitpoint;
-        GameManager.instance.ShowText("+" + healingAmount.ToString() + "hp", 25, Color.green, transform.position, Vector3.up * 30, 1.0f);        
+        GameManager.instance.ShowText("+" + healingAmount.ToString() + "hp", 25, Color.green, transform.position, Vector3.up * 30, 1.0f);
+        GameManager.instance.OnHitpointChange();
+
     }
 }
