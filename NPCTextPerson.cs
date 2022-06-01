@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class NPCTextPerson : Collidable
 {
-    public string message;
+    public string[] messages;
 
-    private float cooldown = 4.0f;
-    private float lastShout;
+    protected float cooldown = 5.0f;
+    protected float lastShout;
+    protected int count = 0;
 
     protected override void Start()
     {
@@ -16,10 +17,20 @@ public class NPCTextPerson : Collidable
     }
     protected override void OnCollide(Collider2D coll)
     {
+        if (coll.name != "Player")
+            return;
         if (Time.time - lastShout > cooldown)
         {
             lastShout = Time.time;
-            GameManager.instance.ShowText(message, 15, Color.white, transform.position + new Vector3(0, 0.2f, 0), Vector3.zero, cooldown);
+            ShowCountedText();
         }
+    }
+
+    protected virtual void ShowCountedText()
+    {
+        GameManager.instance.ShowText(messages[count], 15, Color.white, transform.position + new Vector3(0, 0.2f, 0), Vector3.zero, cooldown);
+        count++;
+        if (count == messages.Length)
+            count = 0;
     }
 }
