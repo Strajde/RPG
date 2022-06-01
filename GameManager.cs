@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             Destroy(player.gameObject);
             Destroy(floatingTextManager.gameObject);
+            Destroy(hud);
+            Destroy(menu);
 
             return;
         }
@@ -23,8 +25,7 @@ public class GameManager : MonoBehaviour
         // przy kazdej nowej scenie wykonuje siê:
         instance = this;
         SceneManager.sceneLoaded += LoadState;
-        DontDestroyOnLoad(gameObject);
-
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     //Ressources
@@ -36,9 +37,13 @@ public class GameManager : MonoBehaviour
     //References
     public Player player;
     public Weapon weapon;
+
     //po co tworzyæ nowy jak mozna nosiæ zawsze ze sob¹
     public FloatingTextManager floatingTextManager;
     public RectTransform hitpointBar;
+    public Animator deathMenuAnim;
+    public GameObject hud;
+    public GameObject menu;
 
     //Logic
     public int pesos;
@@ -115,7 +120,24 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Level up!");
         player.OnLevelUp();
+        OnHitpointChange();
     }
+
+    //On Scene Loaded
+
+    public void OnSceneLoaded(Scene s, LoadSceneMode mode)
+    {
+        player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+    }
+
+    //Death Menu and Respawn
+    public void Respawn()
+    {
+        deathMenuAnim.SetTrigger("Hide");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
+        player.Respawn();
+    }
+
 
     //Save, Load system
 
@@ -135,6 +157,9 @@ public class GameManager : MonoBehaviour
 
     public void LoadState(Scene s, LoadSceneMode mode)
     {
+        SceneManager.sceneLoaded -= LoadState;
+
+
         if (!PlayerPrefs.HasKey("SaveState"))
         {
             return;
@@ -149,11 +174,5 @@ public class GameManager : MonoBehaviour
         experience = int.Parse(data[2]);
         if(GetCurrentLevel() != 1)
             player.SetLevel(GetCurrentLevel());
-
-        Debug.Log("Load");
-
-        player.transform.position = GameObject.Find("SpawnPoint").transform.position;
-
-
     }
 }
