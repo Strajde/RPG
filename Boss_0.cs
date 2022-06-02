@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_0 : Boss
+public class Boss_0 : Enemy
 {
     public float[] fireballSpeed = { 2.5f, -2.5f };
     public float distance = 0.25f;
