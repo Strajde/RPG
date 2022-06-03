@@ -28,7 +28,7 @@ public class Enemy : Mover
         hitbox = transform.GetChild(0).GetComponent<BoxCollider2D>();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         //Czy gracz jest w zasiêgu?
         if (Vector3.Distance(playerTranform.position, startingPosition) < chaseLength)
