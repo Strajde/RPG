@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     public FloatingTextManager floatingTextManager;
     public RectTransform hitpointBar;
     public Animator deathMenuAnim;
+    public Animator winMenuAnim;
     public GameObject hud;
     public GameObject menu;
 
@@ -136,6 +137,11 @@ public class GameManager : MonoBehaviour
         deathMenuAnim.SetTrigger("Hide");
         UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
         player.Respawn();
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
 
